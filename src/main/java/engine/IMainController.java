@@ -99,6 +99,8 @@ public interface IMainController {
 	 * @param reportType A String that is either "text" for text, "md" for markdown, "html" for html
 	 * @return an integer with the number of lines written; -1 if sth goes wrong
 	 * @throws IOException if sth goes wrong during the writing of the output file
+
+	 * 
 	 */
 	int reportToFile(String outputFilePath, String requestName, String reportType) throws IOException;
 
