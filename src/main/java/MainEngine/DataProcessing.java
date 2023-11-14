@@ -1,5 +1,9 @@
 package MainEngine;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -10,26 +14,42 @@ import engine.IMainController;
 
 
 public class DataProcessing implements IMainController {
-    
+
     List<IMeasurementVector> list = new ArrayList<>();
 
     //loading the file and returning a list of measurement vectors
-    public List<IMeasurementVector> load(String fileName, String delimiter){
-       //generate for me somthing that implements IMeasurementVector
-        List<String> lines = new ArrayList<>();
-    for (String line : lines) {
-        String[] tokens = line.split(delimiter);
-        String countryName = tokens[0];
-        String indicatorName = tokens[1];
-        int year = Integer.parseInt(tokens[2]);
-        double value = Double.parseDouble(tokens[3]);
-        MeasurementVector vector = new MeasurementVector(countryName, indicatorName, year, value);
-        list.add(vector);
-    }
+    public List<IMeasurementVector> load(String fileName, String delimiter) throws FileNotFoundException, IOException{
+        BufferedReader inputStream = null;
+        try{
+            inputStream = new BufferedReader(new FileReader(fileName));
+        }
+        catch(FileNotFoundException e){
+            throw new FileNotFoundException("unable to open file " + fileName);
+        }
+        catch(IOException e){
+            throw new IOException("unable to read file " + fileName);
+        }
+        while(true){
+            String line = inputStream.readLine();
+            if(line == null){
+                break;
+            }
+            String[] tokens = line.split(delimiter);
+            String countryName = tokens[0];
+            String indicatorString = tokens[1];
+            int year = Integer.parseInt(tokens[2]);
+            double value = Double.parseDouble(tokens[3]);
+            IMeasurementVector vector = new MeasurementVector(countryName, indicatorString, year, value);
+            list.add(vector);
+            }
+        inputStream.close();
         return list;
-
         
-    }
+        }
+          
+   
+        
+    
     public ISingleMeasureRequest findSingleCountryIndicator(String requestName, String countryName, String indicatorString){
        return null;
     }
@@ -74,10 +94,6 @@ public class DataProcessing implements IMainController {
         }
     }
 
-    public void main(String[] args) {
-        DataProcessing dataProcessing = new DataProcessing();
-        dataProcessing.load( "data.tsv", "," );
-        dataProcessing.showList(list);;
-
-    }
 }
+   
+
