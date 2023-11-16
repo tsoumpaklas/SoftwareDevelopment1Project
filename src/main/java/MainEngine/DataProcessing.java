@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import org.apache.commons.math3.util.Pair;
+
 import dom2app.IMeasurementVector;
 import dom2app.ISingleMeasureRequest;
 import engine.IMainController;
@@ -35,12 +37,16 @@ public class DataProcessing implements IMainController {
                 break;
             }
             String[] tokens = line.split(delimiter);
-            String countryName = tokens[0];
-            String indicatorString = tokens[1];
-            int year = Integer.parseInt(tokens[2]);
-            double value = Double.parseDouble(tokens[3]);
-            IMeasurementVector vector = new MeasurementVector(countryName, indicatorString, year, value);
+            //fist is objectId, second is countryName, third is ISO2, fourth is ISO3, fifth is indicatorName, sixth is year, seventh is value
+            int objectId = Integer.parseInt(tokens[0]);
+            String countryName = tokens[1];
+            String ISO2 = tokens[2];
+            String ISO3 = tokens[3];
+            String indicatorName = tokens[4];
+            Pair<Integer, Integer> pair = new Pair<Integer, Integer>(Integer.parseInt(tokens[5]), Integer.parseInt(tokens[6]));
+            IMeasurementVector vector = new MeasurementVector(countryName, ISO2, ISO3, indicatorName, pair);
             list.add(vector);
+           
             }
         inputStream.close();
         return list;

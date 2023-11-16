@@ -9,22 +9,31 @@ import dom2app.IMeasurementVector;
 public class MeasurementVector implements IMeasurementVector {
     
     private String countryName;
-    private String indicatorString;
+    private String indicatorName;
+    private String ISO2;
+    private String ISO3;
+    private int year;
+    private double value;
     private List<Pair<Integer, Integer>> measurements;
     private String descriptiveStats;
     private String regressionResult;
-    
 
     
-    public MeasurementVector(String countryName, String indicatorName, int year, double value) {
+    public MeasurementVector(String countryName, String ISO2, String ISO3, String indicatorName, Pair<Integer, Integer> pair) {
+        this.countryName = countryName;
+        this.ISO2 = ISO3;
+        this. ISO3 = ISO3;
+        this.indicatorName = indicatorName;
+        measurements.add(pair);
+
     }
 
     public String getCountryName() {
         return countryName;
     }
     
-    public String getIndicatorString() {
-        return indicatorString;
+     public String getIndicatorString() {
+        return indicatorName;
     }
     
     public List<Pair<Integer, Integer>> getMeasurements() {
@@ -46,4 +55,6 @@ public class MeasurementVector implements IMeasurementVector {
     public void setRegressionResult(String regressionResult) {
         this.regressionResult = regressionResult;
     }
+
+    
 }
