@@ -17,14 +17,14 @@ import engine.IMainController;
 
 public class DataProcessing implements IMainController {
 
-    List<IMeasurementVector> list = new ArrayList<>();
+   public static List<IMeasurementVector> list = new ArrayList<>();
     //keeping the years in a list
-    List<Integer> chronoList = new ArrayList<>();
+   private List<Integer> chronoList = new ArrayList<>();
     //matching years and values with hashmap
-    Pair<Integer, Integer> pair;
+   private Pair<Integer, Integer> pair;
 
 
-
+    public DataProcessing(){}
     //loading the file and returning a list of measurement vectors
     public List<IMeasurementVector> load(String fileName, String delimiter) throws FileNotFoundException, IOException{
         BufferedReader inputStream = null;
@@ -43,7 +43,6 @@ public class DataProcessing implements IMainController {
                 break;
             }
             String[] tokens = line.split(delimiter);
-            int objectId = Integer.parseInt(tokens[0]);
             String countryName = tokens[1];
             String ISO2 = tokens[2];
             String ISO3 = tokens[3];
@@ -57,14 +56,10 @@ public class DataProcessing implements IMainController {
             }
            else{
                 for(int i =5; i < tokens.length; i++){
-                    if(tokens[i].equals("")){
-                    tokens[i] = "0";
-                    }
-                    for(int j=0; j<chronoList.size(); j++){
-                        pair = new Pair<Integer, Integer>(chronoList.get(j), Integer.parseInt(tokens[i]));
-                        //System.out.println(pair);
-                    }
-
+                     if(tokens[i].equals("")){
+                                tokens[i] = "0";
+                     }
+                      pair = new Pair<Integer, Integer>(chronoList.get(i-5), Integer.parseInt(tokens[i]));
                 }
 
            }
@@ -123,8 +118,11 @@ public class DataProcessing implements IMainController {
             System.out.println(vector.getCountryName() + " " + vector.getIndicatorString() + " " + vector.getMeasurements());
         }
     }
-    public void main(String[] args){
-        
+    public static void main(String[] args) throws FileNotFoundException, IOException{
+        DataProcessing test = new DataProcessing();
+        test.load("src/main/resources/InputData/ClimateRelatedDisasters.tsv","\t");
+        test.showList(list);
+
     }
 
 }

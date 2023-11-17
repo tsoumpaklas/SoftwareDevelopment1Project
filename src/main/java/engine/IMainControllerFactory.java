@@ -1,5 +1,7 @@
 package engine;
 
+import MainEngine.DataProcessing;
+
 public class IMainControllerFactory {
 
 	/**
@@ -17,9 +19,9 @@ public class IMainControllerFactory {
 	 * @return  a concrete object which is an implementation of IMainController
 	 */
 	public IMainController createMainController(ControllerTypeEnum controllerType) {
-		/*if (controllerType == ControllerTypeEnum.DEFAULT)
-			return new XXXX(); //TODO implement a materialization of IMainController
-			*/
+		if (controllerType == ControllerTypeEnum.DEFAULT)
+			return new DataProcessing(); //TODO implement a materialization of IMainController
+			
 			
 		return null;
 	}

@@ -1,5 +1,6 @@
 package MainEngine;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.math3.util.Pair;
@@ -14,9 +15,10 @@ public class MeasurementVector implements IMeasurementVector {
     private String ISO3;
     private int year;
     private double value;
-    private List<Pair<Integer, Integer>> measurements;
+    private List<Pair<Integer, Integer>> measurements = new ArrayList<>();
     private String descriptiveStats;
     private String regressionResult;
+    
 
     
     public MeasurementVector(String countryName, String ISO2, String ISO3, String indicatorName, Pair<Integer, Integer> pair) {
