@@ -18,6 +18,12 @@ import engine.IMainController;
 public class DataProcessing implements IMainController {
 
     List<IMeasurementVector> list = new ArrayList<>();
+    //keeping the years in a list
+    List<Integer> chronoList = new ArrayList<>();
+    //matching years and values with hashmap
+    Pair<Integer, Integer> pair;
+
+
 
     //loading the file and returning a list of measurement vectors
     public List<IMeasurementVector> load(String fileName, String delimiter) throws FileNotFoundException, IOException{
@@ -37,17 +43,35 @@ public class DataProcessing implements IMainController {
                 break;
             }
             String[] tokens = line.split(delimiter);
-            //fist is objectId, second is countryName, third is ISO2, fourth is ISO3, fifth is indicatorName, sixth is year, seventh is value
             int objectId = Integer.parseInt(tokens[0]);
             String countryName = tokens[1];
             String ISO2 = tokens[2];
             String ISO3 = tokens[3];
             String indicatorName = tokens[4];
-            Pair<Integer, Integer> pair = new Pair<Integer, Integer>(Integer.parseInt(tokens[5]), Integer.parseInt(tokens[6]));
-            IMeasurementVector vector = new MeasurementVector(countryName, ISO2, ISO3, indicatorName, pair);
-            list.add(vector);
-           
+            /*Here we read the first line which contains only the years
+              and then we read the second line which contains the measurements */
+            if(chronoList.isEmpty()){
+                for(int i = 5; i < tokens.length; i++){
+                    chronoList.add(Integer.parseInt(tokens[i]));
+                }
             }
+           else{
+                for(int i =5; i < tokens.length; i++){
+                    if(tokens[i].equals("")){
+                    tokens[i] = "0";
+                    }
+                    for(int j=0; j<chronoList.size(); j++){
+                        pair = new Pair<Integer, Integer>(chronoList.get(j), Integer.parseInt(tokens[i]));
+                        //System.out.println(pair);
+                    }
+
+                }
+
+           }
+           IMeasurementVector vector = new MeasurementVector(countryName, ISO2, ISO3, indicatorName, pair);
+            list.add(vector);
+        }
+
         inputStream.close();
         return list;
         
@@ -98,6 +122,9 @@ public class DataProcessing implements IMainController {
         for (IMeasurementVector vector : list) {
             System.out.println(vector.getCountryName() + " " + vector.getIndicatorString() + " " + vector.getMeasurements());
         }
+    }
+    public void main(String[] args){
+        
     }
 
 }
