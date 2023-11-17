@@ -22,6 +22,8 @@ public class DataProcessing implements IMainController {
    private List<Integer> chronoList = new ArrayList<>();
     //matching years and values with hashmap
    private Pair<Integer, Integer> pair;
+   
+   private List<Pair<Integer, Integer>> measurements = new ArrayList<>();
 
 
     public DataProcessing(){}
@@ -60,10 +62,11 @@ public class DataProcessing implements IMainController {
                                 tokens[i] = "0";
                      }
                       pair = new Pair<Integer, Integer>(chronoList.get(i-5), Integer.parseInt(tokens[i]));
+                      measurements.add(pair);
                 }
 
            }
-           IMeasurementVector vector = new MeasurementVector(countryName, ISO2, ISO3, indicatorName, pair);
+           IMeasurementVector vector = new MeasurementVector(countryName, ISO2, ISO3, indicatorName, measurements);
             list.add(vector);
         }
 
@@ -75,7 +78,14 @@ public class DataProcessing implements IMainController {
         
     
     public ISingleMeasureRequest findSingleCountryIndicator(String requestName, String countryName, String indicatorString){
-        
+        for(IMeasurementVector vector : list){
+            if(vector.getCountryName().equals(countryName) && vector.getIndicatorString().equals(indicatorString)){
+                 SingleMeasureRequest request = new SingleMeasureRequest(requestName, vector);
+                 //vector.getMeasurements(list)
+                 return request;
+            }
+        }
+      return null;
     }
     public ISingleMeasureRequest findSingleCountryIndicatorYearRange(String requestName, String countryName){
         return null;
@@ -120,7 +130,8 @@ public class DataProcessing implements IMainController {
     public static void main(String[] args) throws FileNotFoundException, IOException{
         DataProcessing test = new DataProcessing();
         test.load("src/main/resources/InputData/ClimateRelatedDisasters.tsv","\t");
-        test.showList(list);
+        //test.showList(list);
+        System.out.println(list.get(0).getMeasurements());
 
     }
 

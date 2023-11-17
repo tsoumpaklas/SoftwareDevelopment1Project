@@ -21,12 +21,12 @@ public class MeasurementVector implements IMeasurementVector {
     
 
     
-    public MeasurementVector(String countryName, String ISO2, String ISO3, String indicatorName, Pair<Integer, Integer> pair) {
+    public MeasurementVector(String countryName, String ISO2, String ISO3, String indicatorName, List<Pair<Integer, Integer>> pair) {
         this.countryName = countryName;
         this.ISO2 = ISO3;
         this. ISO3 = ISO3;
         this.indicatorName = indicatorName;
-        measurements.add(pair);
+        this.measurements = pair;
 
     }
 
@@ -57,6 +57,6 @@ public class MeasurementVector implements IMeasurementVector {
     public void setRegressionResult(String regressionResult) {
         this.regressionResult = regressionResult;
     }
-
-    
 }
+    
+   
