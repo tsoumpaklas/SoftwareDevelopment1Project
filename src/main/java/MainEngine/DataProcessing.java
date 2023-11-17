@@ -72,11 +72,10 @@ public class DataProcessing implements IMainController {
         
         }
           
-   
         
     
     public ISingleMeasureRequest findSingleCountryIndicator(String requestName, String countryName, String indicatorString){
-       return null;
+        
     }
     public ISingleMeasureRequest findSingleCountryIndicatorYearRange(String requestName, String countryName){
         return null;
